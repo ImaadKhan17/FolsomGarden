@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "frontend_garden",
+    "name": "Garden_App",
     "slug": "frontend_garden",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "garden_app",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",

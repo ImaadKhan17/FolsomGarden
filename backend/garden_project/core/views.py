@@ -46,3 +46,8 @@ def signup(request):
 
 
 
+# {
+#         "username": "john_doe",
+#         "email": "john.doe@example.com",
+#         "password": "password123"
+#     }

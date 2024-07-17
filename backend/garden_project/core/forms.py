@@ -19,6 +19,12 @@ class SignupForm(UserCreationForm):
     password1 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Password', 'class':'w-fill py-4 px-6 rounded-xl'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': 'Confirm Password', 'class':'w-fill py-4 px-6 rounded-xl'}))
 
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError("A user with that email already exists.")
+        return email
+
 class ContactForm(forms.ModelForm):
     class Meta:
         model = Contact
