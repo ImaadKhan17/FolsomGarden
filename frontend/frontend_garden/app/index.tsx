@@ -1,13 +1,41 @@
 import { Text, View, ScrollView, Image } from "react-native";
 import { Link, Redirect, router} from "expo-router";
-import React from "react";
+import React, { useEffect, useState} from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
 import CustomButton from "../components/CustomButton";
 import { StatusBar } from "expo-status-bar";
+import { getRefreshToken,storeTokens, refreshToken } from "@/services/tokenAuthHandling";
 
 
 export default function Index() {
+  const [isAuth, setisAuth] = useState(false)
+  const [isCheckAuth, setisCheckAuth] = useState(true)
+  useEffect(()=>{
+    const checkAuthentication = async () => {
+      try {
+        console.log("HI");
+        let oldToken = await getRefreshToken();
+        if (oldToken) {
+          console.log("This is old refreshToken: ", oldToken);
+          let result = await refreshToken(oldToken);
+          await storeTokens(result.access, result.refresh);
+          if (result.access && result.refresh) {
+            setisAuth(true);
+          } else {
+            setisAuth(false);
+          }
+        } else {
+          setisAuth(false);
+        }
+      } catch (err) {
+        throw err;
+      } finally {
+        setisCheckAuth(false);
+      }
+    };
+    checkAuthentication();
+  },[])
   return (
     <SafeAreaView className="bg-primary h-full">
       <ScrollView
@@ -37,7 +65,15 @@ export default function Index() {
           </Text>
           <CustomButton
             title="Continue"
-            handlePress={() => router.push('/log-in')}
+            handlePress={() => {
+              if(isAuth){
+                console.log("Auth is true");
+                
+                router.push('/home')
+              }else{
+              router.push('/log-in')
+              }
+            }}
             containerStyles="w-full mt-7"
           />
         </View>

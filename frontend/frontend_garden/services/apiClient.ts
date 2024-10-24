@@ -1,7 +1,7 @@
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { refreshToken, storeTokens } from "./tokenAuthHandling";
-import API_URL from "@/constants/apiurl";
+import { logout, refreshToken, storeTokens } from "./tokenAuthHandling";
+import {API_URL} from "@/constants/apiurl";
 
 
 
@@ -12,6 +12,8 @@ const apiClient = axios.create({
 apiClient.interceptors.request.use(
   async (config) => {
     const accessToken = await AsyncStorage.getItem("accessToken");
+    console.log("apiClient trying to request using: ",accessToken);
+    
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -26,16 +28,20 @@ apiClient.interceptors.response.use(
     const originalRequest = error.config;
     if (error.response.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
+      console.log("Retrying request due to 401 error.");
+
       const refresh = await AsyncStorage.getItem("refreshToken");
+      console.log("Refresh token for retry with refresh token:", refresh);
+
       if (refresh) {
         try {
-          const { access } = await refreshToken(refresh);
-          await storeTokens(access, refresh);
+          const { access, refresh: newRefresh } = await refreshToken(refresh);
+           // Update stored tokens
           originalRequest.headers.Authorization = `Bearer ${access}`;
           return apiClient(originalRequest);
         } catch (refreshError) {
           console.error("Token refresh failed:", refreshError);
-          // Handle token refresh failure (e.g., log out the user)
+          logout()
         }
       }
     }

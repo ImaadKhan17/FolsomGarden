@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-*hcv$=d=uevmluy@5!px_(e$cgo45!tx$_oj5=(x&85+n=6$68
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.68.107', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = ['192.168.68.112', '127.0.0.1', '0.0.0.0', "10.254.18.91"]
 
 LOGIN_URL = '/login'
 LOGOUT_REDIRECT_URL = '/'
@@ -74,7 +74,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
      'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
-     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+     'REFRESH_TOKEN_LIFETIME': timedelta(days=3),
      'ROTATE_REFRESH_TOKENS': True,
      'BLACKLIST_AFTER_ROTATION': True
 }

@@ -6,21 +6,30 @@ import FormField from "../../components/FormField";
 import { useState } from "react";
 import { Link, router } from "expo-router";
 import { signup } from "@/services/tokenAuthHandling";
-
-
+import * as Location from "expo-location";
 import CustomButton from "@/components/CustomButton";
 
 const SignUp = () => {
   const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
   const submit = async () => {
-    if (form.username === "" || form.password === "") {
+    if (form.username === "" || form.password === "" || form.email === "") {
       Alert.alert("Error", "Please fill in all fields");
     }
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
     setIsSubmitting(true)
 
     try {
-      let response = await signup(form.username, form.email, form.password);
+      let response = await signup(form.username, form.email, form.password, location.coords);
       if (response.error){
         Alert.alert("Oops", response.error)
       }else{

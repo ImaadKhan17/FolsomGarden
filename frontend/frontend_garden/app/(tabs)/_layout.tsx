@@ -1,8 +1,11 @@
 import { View, Text, Image } from "react-native";
 import React from "react";
-import { Tabs, Redirect } from "expo-router";
+import { Tabs, Redirect, Stack, useNavigation } from "expo-router";
+
+
 
 import { icons } from "../../constants";
+
 
 const TabIcon = ({ icon, color, name, focused }) => {
   return (
@@ -19,6 +22,8 @@ const TabIcon = ({ icon, color, name, focused }) => {
   );
 };
 
+
+
 const TabsLayout = () => {
   return (
     <>
@@ -28,10 +33,10 @@ const TabsLayout = () => {
           tabBarActiveTintColor: "#F13A4E",
           tabBarInactiveTintColor: "#CDCDE0",
           tabBarStyle: {
-            backgroundColor: "#0F7173",
+            backgroundColor: "#0b5d5e",
             borderTopWidth: 1,
-            borderTopColor: "#232533",
-            height: 84,
+            borderTopColor: "#106f70",
+            height: 86,
           },
         }}
       >
@@ -41,12 +46,14 @@ const TabsLayout = () => {
             title: "Home",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.home}
-                color={color}
-                name="Home"
-                focused={focused}
-              />
+              <View className="mt-3">
+                <TabIcon
+                  icon={icons.home}
+                  color={color}
+                  name="Home"
+                  focused={focused}
+                />
+              </View>
             ),
           }}
         />
@@ -56,12 +63,14 @@ const TabsLayout = () => {
             title: "Chat",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.message}
-                color={color}
-                name="Chat"
-                focused={focused}
-              />
+              <View className="mt-3">
+                <TabIcon
+                  icon={icons.message}
+                  color={color}
+                  name="Chat"
+                  focused={focused}
+                />
+              </View>
             ),
           }}
         />
@@ -71,12 +80,14 @@ const TabsLayout = () => {
             title: "Create",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.plus}
-                color={color}
-                name="Create"
-                focused={focused}
-              />
+              <View className="mt-3">
+                <TabIcon
+                  icon={icons.plus}
+                  color={color}
+                  name="Create"
+                  focused={focused}
+                />
+              </View>
             ),
           }}
         />
@@ -86,12 +97,14 @@ const TabsLayout = () => {
             title: "Profile",
             headerShown: false,
             tabBarIcon: ({ color, focused }) => (
-              <TabIcon
-                icon={icons.profile}
-                color={color}
-                name="Profile"
-                focused={focused}
-              />
+              <View className="mt-3">
+                <TabIcon
+                  icon={icons.profile}
+                  color={color}
+                  name="Profile"
+                  focused={focused}
+                />
+              </View>
             ),
           }}
         />
